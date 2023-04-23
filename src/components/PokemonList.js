@@ -13,19 +13,22 @@ const PokemonList = () => {
             .catch(error => {
                 console.log(error);
             });
-        }, []);
+    }, []);
 
     return (
         <div>
             <h3>Pokemon list</h3>
-            <ul style={{ maxWidth: 1200,
-                wordBreak: "break-all"}}>
+            <ul style={{
+                maxWidth: 1200,
+                wordBreak: "break-all"
+            }}>
                 {pokemonList.length > 0 && pokemonList.map((pokemon, index) => (
-                    <li style={{ display: "inline-block", verticalAlign: "top", position: "relative"}}
+                    <li style={{display: "inline-block", verticalAlign: "top", position: "relative"}}
                         key={index}>
-                        <a style={{ display: "inline-block", width: 100, textAlign: "center",
+                        <a style={{
+                            display: "inline-block", width: 100, textAlign: "center",
                         }}>
-                            <Pokemon name={pokemon.name} />
+                            <Pokemon name={pokemon.name} isDetail={true}/>
                         </a>
                     </li>
                 ))}

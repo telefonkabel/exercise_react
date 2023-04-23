@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 
-const Pokemon = ({name}) => {
+const Pokemon = ({name, isDetail}) => {
     const [pokemonData, setPokemonData] = useState(null);
 
     useEffect(() => {
@@ -12,8 +12,15 @@ const Pokemon = ({name}) => {
         fetchData();
     }, [name]);
 
-    if (!pokemonData) {
-        return <div>Enter a valid Pokemon</div>;
+    let index = Number.MAX_SAFE_INTEGER;
+    if (pokemonData) {
+        for (let i = 0; i < 5; i++) {
+            index = Math.min(index, pokemonData.game_indices[i].game_index)
+        }
+    }
+
+    if (!pokemonData || index > 151) {
+        return;
     }
 
     return (
@@ -21,13 +28,17 @@ const Pokemon = ({name}) => {
             {
                 pokemonData && (
                     <div>
-                        <img src={pokemonData.sprites.front_default} alt={pokemonData.name} />
-                        <h4>{pokemonData.name}</h4>
-                        <ul style={{position:"relative", alignItems:"center", listStyleType:"none", padding:0}}>
-                            {pokemonData.types.map((item, index) => (
-                                <li key={index}>{item.type.name}</li>
-                            ))}
-                        </ul>
+                        <img src={pokemonData.sprites.front_default} alt={pokemonData.name}/>
+                        {isDetail ?
+                            <div>
+                                <h4>{pokemonData.name}</h4>
+                                <ul style={{position: "relative", alignItems: "center", listStyleType: "none", padding: 0}}>
+                                    {pokemonData.types.map((item, index) => (
+                                        <li key={index}>{item.type.name}</li>
+                                    ))}
+                                </ul>
+                            </div>
+                            : null}
                     </div>
                 )
             }
